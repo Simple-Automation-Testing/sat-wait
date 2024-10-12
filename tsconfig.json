@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "sourceMap": true,
+    "outDir": "built",
+    "declaration": true,
+    "allowJs": true
+  },
+  "exclude": [
+    "node_modules",
+    "built",
+    "specs",
+    "example",
+    "playground.*"
+  ]
+}
