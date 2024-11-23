@@ -1,16 +1,19 @@
 {
   "name": "sat-wait",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Universal waiting library",
   "scripts": {
     "test": "mocha ./specs/**/*.spec.ts --require ts-node/register --timeout 30000",
     "lint": "eslint --ext .ts ./",
-    "tsc": "rm -rf ./built && tsc"
+    "tsc:cjs": "tsc -p tsconfig.json",
+    "tsc:esm": "tsc -p tsconfig.esm.json",
+    "tsc": "rm -rf ./built && npm run tsc:cjs && npm run tsc:esm"
   },
-  "main": "./built/index.js",
+  "main": "./built/cjs/index.js",
   "exports": {
     ".": {
-      "require": "./built/index.js"
+      "require": "./built/cjs/index.js",
+      "import": "./built/esm/index.js"
     }
   },
   "repository": {
@@ -28,25 +31,25 @@
   },
   "homepage": "https://github.com/Simple-Automation-Testing/sat-wait#readme",
   "devDependencies": {
-    "@types/mocha": "^10.0.8",
-    "@types/node": "^22.5.5",
-    "@typescript-eslint/eslint-plugin": "^8.6.0",
-    "@typescript-eslint/parser": "^8.6.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^22.9.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "@typescript-eslint/parser": "^5.59.7",
     "assertior": "^0.0.28",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jsdoc": "^50.2.4",
-    "eslint-plugin-no-only-tests": "^3.3.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^7.1.0",
-    "eslint-plugin-sonarjs": "^2.0.2",
-    "eslint-plugin-unicorn": "^55.0.0",
-    "mocha": "^10.7.3",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-jsdoc": "^44.2.7",
+    "eslint-plugin-no-only-tests": "^3.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-sonarjs": "^0.19.0",
+    "eslint-plugin-unicorn": "^47.0.0",
+    "mocha": "^10.2.0",
     "ts-node": "^10.9.2",
     "tslint": "^6.1.3",
-    "typescript": "^5.6.2"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "sat-utils": "^3.0.0"
+    "sat-utils": "^3.0.2"
   }
 }
