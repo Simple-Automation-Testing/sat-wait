@@ -54,7 +54,7 @@ const defaultOptions = {};
  * @param {Function} [options.callEveryCycle] call every time after main call back execution if result was not achived
  * @returns {any} any result that call back will return
  */
-async function waitFor(callback, options: IWaiterOpts = {}) {
+async function waitFor<Tresult = any>(callback, options: IWaiterOpts = {}): Promise<Tresult> {
   if (!isObject(options)) {
     throw new TypeError(`waitFor(): second argument should be an object, current arg is ${getType(options)}`);
   }

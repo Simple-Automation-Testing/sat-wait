@@ -4,14 +4,14 @@
 
 ## Content
 
-- [waitForCondition](#waitforcondition)
+- [waitFor](#waitfor)
 
-## waitForCondition
+## waitFor
 
 ```js
-	const {waitForCondition} = require('sat-utils')
+	const { waitFor } = require('sat-utils')
 
-	waitForCondition.setDefaultOpts({
+	waitFor.setDefaultOpts({
   	timeout: 2500, // default waiting time is 2500 ms
   	interval: 250,	// default re-check condition interval time is 250 ms
   	message: 'Failed',	// default error message is "Failed"
@@ -20,7 +20,7 @@
 
 	test()
 	async function test() {
-  	await waitForCondition(async () => {
+  	await waitFor(async () => {
   		const result = await someAsyncLogic()
   		return result;
   	})
@@ -28,7 +28,7 @@
 
 	test1()
 	async function test1() {
-  await waitForCondition(async () => {
+  await waitFor(async () => {
   	const result = await someAsyncLogic()
   	return result;
   }, {
