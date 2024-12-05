@@ -23,7 +23,7 @@ export type IWaiterOpts = {
   analyseResult?: (...args: any[]) => boolean | Promise<boolean>;
   before?: () => Promise<void> | any;
   after?: () => Promise<void> | any;
-  callEveryCycle?: () => Promise<void> | any;
+  callEveryCycle?: (callCycleCounter: number, executionTime: number, err?: any) => Promise<void> | any;
 };
 
 const defaultOptions = {};
@@ -54,11 +54,15 @@ const defaultOptions = {};
  * @param {Function} [options.callEveryCycle] call every time after main call back execution if result was not achived
  * @returns {any} any result that call back will return
  */
-async function waitFor<Tresult = any>(callback, options: IWaiterOpts = {}): Promise<Tresult> {
+async function waitFor<Tresult = any>(
+  callback: (callCycleCounter?: number) => any,
+  options: IWaiterOpts = {},
+): Promise<Tresult> {
   if (!isObject(options)) {
     throw new TypeError(`waitFor(): second argument should be an object, current arg is ${getType(options)}`);
   }
 
+  let callCycleCounter = 1;
   let callbackError;
   const mergedOpts = { ...defaultOptions, ...options };
   const {
@@ -139,6 +143,7 @@ async function waitFor<Tresult = any>(callback, options: IWaiterOpts = {}): Prom
   await before();
 
   while (Date.now() - start < timeout) {
+    callCycleCounter++;
     if (falseIfError) {
       try {
         result = await callback();
@@ -149,7 +154,7 @@ async function waitFor<Tresult = any>(callback, options: IWaiterOpts = {}): Prom
         result = false;
       }
     } else {
-      result = await callback();
+      result = await callback(callCycleCounter);
     }
 
     if (analyseResult && (await analyseResult(result))) {
@@ -164,7 +169,7 @@ async function waitFor<Tresult = any>(callback, options: IWaiterOpts = {}): Prom
     }
 
     try {
-      await callEveryCycle();
+      await callEveryCycle(callCycleCounter, Date.now() - start, callbackError);
     } catch (error) {
       callbackError = error;
     }

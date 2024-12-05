@@ -1,6 +1,6 @@
 {
   "name": "sat-wait",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Universal waiting library",
   "scripts": {
     "test": "mocha ./specs/**/*.spec.ts --require ts-node/register --timeout 30000",
