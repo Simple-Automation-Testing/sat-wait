@@ -62,7 +62,7 @@ async function waitFor<Tresult = any>(
     throw new TypeError(`waitFor(): second argument should be an object, current arg is ${getType(options)}`);
   }
 
-  let callCycleCounter = 1;
+  let callCycleCounter = 0;
   let callbackError;
   const mergedOpts = { ...defaultOptions, ...options };
   const {
@@ -146,7 +146,7 @@ async function waitFor<Tresult = any>(
     callCycleCounter++;
     if (falseIfError) {
       try {
-        result = await callback();
+        result = await callback(callCycleCounter);
 
         if (stopIfNoError) return result;
       } catch (error) {
